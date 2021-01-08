@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+#header_main table tr td:nth-child(4), #header_main table tr td:nth-child(4) a{
+	background-color: #ff3131;
+	color: white;
+}
+
+#my_info {
+	margin: 20px 0 10px 0;
+	padding: 10px 0;
+	border-bottom: 1px solid gray;
+}
+#my_info table {
+	width: 100%;
+	text-align: center;
+}
+
+#my_info table th {
+	padding: 10px 0;
+}
+
+#my_info table tr:nth-child(1) td {
+	width: 30%;
+}
+
+#my_info table tr:nth-child(3) td p {
+	margin: 5px;
+}
+
+#my_info table tr:nth-child(3) td span {
+	font-weight: bold;
+}
+
+#info_img {
+	width: 150px;
+	height: 150px;
+	border-radius: 150px;
+}
+
+#heart_img {
+	width: 30px;
+}
