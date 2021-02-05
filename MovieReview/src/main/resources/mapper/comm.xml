@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.model.CommDAO">
+	<insert id="insertComm" parameterType="com.movie.model.CommDTO">
+		insert into mov_comm(comm_num, comm_board, comm_cont, comm_writer, comm_regdate, comm_group, comm_step, comm_indent)
+		values(#{comm_num}, #{comm_board}, #{comm_cont}, #{comm_writer}, now(), #{comm_group}, default, default)
+	</insert>
+	
+	<delete id="deleteComm" parameterType="int">
+		delete from mov_comm where comm_num = #{comm_num}
+	</delete>
+	
+	<delete id="deleteBoardComm" parameterType="int">
+		delete from mov_comm where comm_board = #{bnum}
+	</delete>
+	
+	<update id="updateComm" parameterType="com.movie.model.CommDTO">
+		update mov_comm set comm_cont = #{comm_cont} where comm_num = #{comm_num}
+	</update>
+	
+	<select id="getCommCont" parameterType="int" resultType="com.movie.model.CommDTO">
+		select * from mov_comm where comm_num = #{comm_num}
+	</select>
+	
+	<select id="getMaxStep" parameterType="int" resultType="int">
+		select max(comm_step) from mov_comm where comm_group = #{comm_group}
+	</select>
+	
+	<insert id="insertCommReply" parameterType="com.movie.model.CommDTO">
+		insert into mov_comm(comm_board, comm_cont, comm_writer, comm_regdate, comm_group, comm_step, comm_indent)
+		values(#{comm_board}, #{comm_cont}, #{comm_writer}, now(), #{comm_group}, #{comm_step}+1, #{comm_indent}+1)
+	</insert>
+	
+	<select id="getCommCnt" parameterType="int" resultType="int">
+		select count(*) from mov_comm where comm_board = #{bnum}
+	</select>
+	
+	<select id="getMyCommCnt" parameterType="String" resultType="int">
+		select count(*) from mov_comm where comm_writer = #{mem_id}
+	</select>
+	
+	<select id="getMyCommList" parameterType="map" resultType="com.movie.model.CommDTO">
+		select comm.*, b.board_title, b.board_category from mov_comm comm join mov_board b on comm.comm_board = b.board_num where comm_writer = #{mem_id} order by comm_regdate desc limit #{startNum},#{rowsize}
+	</select>
+	
+	<select id="getCommList" parameterType="map" resultType="com.movie.model.CommDTO">
+		select comm.*, mem.mem_img from mov_comm comm join mov_member mem on comm.comm_writer = mem.mem_id
+		where comm_board = #{bnum} order by comm_group, comm_step limit #{startNo},#{rowsize}
+	</select>
+	
+	<select id="getMaxNum" parameterType="int" resultType="int">
+		select max(comm_num) from mov_comm
+	</select>
+</mapper>

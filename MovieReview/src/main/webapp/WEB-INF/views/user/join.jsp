@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${path }/resources/css/user.css">
+<script type="text/javascript" src="${path }/resources/js/jquery-3.5.1.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="${path }/resources/js/join.js"></script>
 </head>
 <body>
 <%@ include file = "../include/top.jsp" %>
@@ -16,54 +19,49 @@
 		<div id="join_box">
 			<img src="${path }/resources/img/logo_box.png">
 			<h2>회원가입</h2>
-			<form name = "frm" action="#" onsubmit = "return check()">
+			<form name = "frm" action="${path }/join.do" onsubmit = "return join_check()">
 				<table>
 					<tr>
 						<th>이름 </th>
-						<td><input type = "text" name = "name" id = "name" size = "20">
+						<td><input type = "text" name = "mem_name" size = "20">
 					</tr>
 					<tr>
 						<th>아이디</th>
-						<td><input type = "text" name = "id" id = "id" size = "20">
+						<td><input type = "text" name = "mem_id" size = "20" id = "id">
 							<input type = "button" value = "중복확인" class="btn_white" onclick = "id_check()">
 						</td>	
 					</tr>
 					<tr>
 						<th>비밀번호</th>
-						<td><input type = "password" name = "pwd1" id = "pwd_1"><br/>
+						<td><input type = "password" name = "mem_pwd" id = "pwd1"><br/>
 							<!--  <font size = "2">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)</font> -->
 						</td>
 					</tr>
 					<tr>
 						<th>비밀번호 확인</th>
-						<td><input type = "password" name = "pwd2" id = "pwd_2">
-						<p class = "txt"> </p>
-						</td>
-					</tr>
-					<tr>
-						<th>닉네임</th>
-						<td><input type = "text" name = "nickname" id = "nickname" >
+						<td><input type = "password" id = "pwd2">
+						<p class = "txt" id = "pwd_check"></p>
 						</td>
 					</tr>
 					<tr>
 						<th>생일</th>
-						<td><input type = "date" name = "birth" ></td>
+						<td><input type = "date" name = "mem_birth" ></td>
 					</tr>
 					<tr>
 						<th>성별</th>
-						<td><input type = "radio" name = "gender" value = "여자"> 여자
-							<input type = "radio" name = "gender" value = "남자"> 남자
+						<td><input type = "radio" name = "mem_gender" value = "F"> 여자
+							<input type = "radio" name = "mem_gender" value = "M"> 남자
 					</tr>
 					<tr>
 						<th rowspan = "3">주소</th>
-						<td><input type = "text" name = "zip">
-							<input type = "button" value = "우편번호" class="btn_white">
+						<td><input type = "text" name = "zip" id = "zip">
+							<input type = "button" value = "우편번호" class="btn_white" onclick = "addr_search()">
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<input type = "text" name = "addr1" id = "addr1" size="30">
-							<p>기본주소</p>
+							<p>도로명주소</p>
 						</td>
 					</tr>
 					<tr>
@@ -83,13 +81,16 @@
 								<option value = "018">018</option>
 								<option value = "019">019</option>
 							</select> - 
-							<input type = "text" name = "phone2" id = "phone2" size="5"> - 
-							<input type = "text" name = "phone3" id = "phone3" size="5">
+							<input type = "text" name = "phone2" size="5"> - 
+							<input type = "text" name = "phone3" size="5">
 						</td>
 					</tr>
 					<tr>
 						<th>이메일</th>
-						<td><input type = "email" name = "email"></td>
+						<td>
+							<input type = "email" name = "mem_email" id = "email">
+							<input type = "button" value = "중복확인" class="btn_white" onclick = "email_check()">
+						</td>
 					</tr>
 				</table>
 				<div id = "join_btn">

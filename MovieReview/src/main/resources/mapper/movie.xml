@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.model.MovieDAO">
+	<select id="checkMovie" parameterType="String" resultType="int">
+		select count(*) from mov_movie_info where mov_code = #{mov_num}
+	</select>
+	
+	<select id="getMovie" parameterType="String" resultType="com.movie.model.MovieDTO">
+		select * from mov_movie_info where mov_code = #{mov_num}
+	</select>
+	
+	<insert id="insertMovie" parameterType="com.movie.model.MovieDTO">
+		insert into mov_movie_info 
+		values(#{mov_code}, #{mov_title}, #{mov_director}, #{mov_opendt}, #{mov_actors}, #{mov_nations}, #{mov_showtm}, #{mov_prdtyear}, #{mov_poster}, #{mov_link})
+	</insert>
+	
+	<select id="getRecommendList" parameterType="list" resultType="com.movie.model.MovieDTO">
+		select mov_title, mov_poster, mov_link
+		from mov_genres join mov_movie_info
+		on mov_code_fk = mov_code
+		where genre_num_fk in
+			<foreach collection="list" item = "item" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		group by mov_code_fk
+		order by rand()
+		limit 0, 6
+	</select>
+</mapper>

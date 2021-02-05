@@ -12,12 +12,13 @@
 #mov_search input:focus {outline: none;} 
 #search_cont {height: 400px;}
 #search_list table {width: 100%; margin: 10px; border-bottom: 1px solid lightgray; padding: 10px 0;}
-#post {width: 95%; height: 200px;}
-#like {width: 30px; hegiht: 30px;}
+#post {width: 90%; height: 200px;}
+.like {width: 30px; hegiht: 30px;}
 #search_list table tr:nth-child(1) td:nth-child(1) {width: 5%;}
 #search_list table tr:nth-child(1) td:nth-child(2) {width: 20%;}
 #search_list table tr:nth-child(1) td:nth-child(2), #search_list table tr:nth-child(1) td:nth-child(3), #search_list table tr:nth-child(1) td:nth-child(4){vertical-align: top;}
-#search_list table tr:nth-child(1) td:nth-child(3) {font-size: 20px; font-weight: bold;}
+#search_list table tr:nth-child(1) td:nth-child(3) {font-size: 20px; font-weight: bold; width: 52%;}
+#search_list table tr:nth-child(1) td:nth-child(3) a {text-decoration: none; color: black;}
 #search_list table tr:nth-child(1) td:nth-child(5) {vertical-align: bottom;}
 #search_list table tr:nth-child(3) td {width: 64%;}
 #search_list table span {color: #f4ef0f}

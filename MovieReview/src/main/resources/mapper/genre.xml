@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.model.GenreDAO">
+	<select id="checkGenre" parameterType="String" resultType="int">
+		select mov_genre_num from mov_genres_info where mov_genre_name = #{genre}
+	</select>
+	
+	<select id="getGenre" parameterType="String" resultType="com.movie.model.GenreDTO">
+		select mov_genres_info.mov_genre_name
+		from mov_genres join mov_genres_info
+		on genre_num_fk = mov_genre_num
+		where mov_code_fk = #{mov_code};
+	</select>
+</mapper>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.model.ReviewDAO">
+	<insert id="insertReview" parameterType="com.movie.model.ReviewDTO">
+		INSERT INTO MOV_REVIEW(REVIEW_MOV, REVIEW_CONT, REVIEW_REGDATE, REVIEW_WRITER, REVIEW_HIT, REVIEW_RATING)
+		VALUES(#{review_mov}, #{review_cont}, now(), #{review_writer}, default, #{review_rating})
+	</insert>
+	
+	<select id="reviewAllList" parameterType="com.movie.service.Pagination" resultType="com.movie.model.ReviewDTO">
+		SELECT R.*, M.mov_title
+		FROM MOV_REVIEW R JOIN MOV_MOVIE_INFO M
+		ON R.REVIEW_MOV = M.MOV_CODE
+		order by review_num desc
+		limit #{StartNo}, #{rowsize}
+	</select>
+	
+	<select id="reviewCnt" resultType="int">
+		select count(*)
+		from mov_review
+	</select>
+	
+	<update id="reviewHit" parameterType="int">
+		update mov_review set review_hit = review_hit+1 where review_num = #{review_num}
+	</update>
+	
+	<select id="reviewCont" parameterType="int" resultType="com.movie.model.ReviewInfoDTO">
+		select m.mem_img, r.*, mov.*
+		from mov_member m, mov_review r, mov_movie_info mov
+		where r.review_writer = m.mem_id and r.review_num = #{review_num} and r.review_mov = mov.mov_code;
+	</select>
+	
+	<update id="updateReview" parameterType="com.movie.model.ReviewDTO">
+		update mov_review
+		set review_cont = #{review_cont}, review_rating = #{review_rating}
+		where review_num = #{review_num}
+	</update>
+	
+	<delete id="deleteReview" parameterType="int">
+		delete from mov_review
+		where review_num = #{review_num}
+	</delete>
+	
+	<select id="reviewTitleCnt" parameterType="String" resultType="int">
+		select count(*)
+		from mov_review mv join mov_movie_info mi
+		on mv.review_mov = mi.mov_code
+		where mov_title like #{search} 
+	</select>
+	
+	<select id="reviewContCnt" parameterType="String" resultType="int">
+		select count(*)
+		from mov_review
+		where review_cont like #{search}
+	</select>
+	
+	<select id="reviewWriterCnt" parameterType="String" resultType="int">
+		select count(*)
+		from mov_review
+		where review_writer like #{search}
+	</select>
+	
+	<select id="reviewTitleList" parameterType="map" resultType="com.movie.model.ReviewDTO">
+		select mv.*, mi.mov_title
+		from mov_review mv join mov_movie_info mi
+		on mv.review_mov = mi.mov_code
+		where mov_title like #{search} 
+		order by review_num desc
+		limit #{startNo}, #{rowsize}
+	</select>
+	
+	<select id="reviewContList" parameterType="map" resultType="com.movie.model.ReviewDTO">
+		select mv.*, mi.mov_title
+		from mov_review mv join mov_movie_info mi
+		on mv.review_mov = mi.mov_code
+		where review_cont like #{search}
+		order by review_num desc
+		limit #{startNo}, #{rowsize}
+	</select>
+	
+	<select id="reviewWriterList" parameterType="map" resultType="com.movie.model.ReviewDTO">
+		select mv.*, mi.mov_title
+		from mov_review mv join mov_movie_info mi
+		on mv.review_mov = mi.mov_code
+		where review_writer like #{search}
+		order by review_num desc
+		limit #{startNo}, #{rowsize}
+	</select>
+	
+	<select id="myReviewCnt" parameterType="String" resultType="int">
+		select count(*)
+		from mov_review
+		where review_writer = #{mem_id}
+	</select>
+	
+	<select id="myReviewList" parameterType="map" resultType="com.movie.model.ReviewDTO">
+		select mv.*, mi.mov_title
+		from mov_review mv join mov_movie_info mi
+		on mv.review_mov = mi.mov_code
+		where review_writer = #{mem_id}
+		order by review_num desc
+		limit #{startNo}, #{rowsize}
+	</select>
+	
+	<select id="reviewRating" parameterType="String" resultType="String">
+		select review_rating
+		from mov_review
+		where review_mov = #{mov_code}
+	</select>
+	
+	<select id="checkReview" parameterType="map" resultType="int">
+		select count(*)
+		from mov_review
+		where review_mov = #{mov_code} and review_writer = #{mem_id}
+	</select>
+
+	<select id="myReviewChart" parameterType="String" resultType="com.movie.model.ChartDTO">
+		select mov_genre_name, count(mgi.mov_genre_name) cnt
+		from mov_review mr, mov_genres mg, mov_genres_info mgi
+		where review_writer = #{mem_id} and mr.review_mov = mg.mov_code_fk and mgi.mov_genre_num = mg.genre_num_fk
+		group by mgi.mov_genre_name
+		order by cnt desc
+	</select>
+	
+	<select id="myReviewBest" parameterType="String" resultType="int">
+		select mg.genre_num_fk, mov_genre_name, avg(review_rating) rating, count(mg.genre_num_fk) cnt
+		from mov_review mr, mov_genres mg, mov_genres_info mgi
+		where review_writer = #{mem_id} and mr.review_mov = mg.mov_code_fk and mgi.mov_genre_num = mg.genre_num_fk
+		group by mg.genre_num_fk
+		order by cnt desc, rating desc
+		limit 0, 6
+	</select>
+	
+	<select id="myReviewRatingAvg" parameterType="String" resultType="float">
+		select avg(review_rating)
+		from mov_review
+		where review_mov = #{mov_code}
+	</select>
+	
+	<select id="checkMyReview" parameterType="String" resultType="int">
+		select count(*)
+		from mov_review
+		where review_mov = #{mov_code}
+	</select>
+</mapper>

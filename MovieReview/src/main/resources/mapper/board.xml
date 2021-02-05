@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.model.BoardDAO">
+	
+	<select id="getBoardList" parameterType="com.movie.service.Pagination" resultType="com.movie.model.BoardDTO">
+		select mov_board.*, count(comm_num) board_comm_cnt
+		from mov_board left join mov_comm on board_num = comm_board
+		group by board_num
+		order by board_group desc, board_step 
+		limit #{StartNo}, #{rowsize}
+	</select>
+	
+	<select id="getBoardCont" parameterType="int" resultType="com.movie.model.BoardDTO">
+		select b.*, mem.mem_img from mov_board b join mov_member mem on b.board_writer = mem.mem_id where board_num = #{bnum}
+	</select>
+	
+	<update id="setHit" parameterType="int">
+		update mov_board set board_hit = board_hit+1 where board_num = #{bnum}
+	</update>
+	
+	<update id="setCommount" parameterType="int">
+		update mov_board set board_comm_cnt = board_comm_cnt+1 where board_num = #{bnum}
+	</update>
+	
+	<update id="setdelCommCnt" parameterType="map">
+		update mov_board set board_comm_cnt = board_comm_cnt-#{cnt} where board_num = #{bnum}
+	</update>
+	
+	<select id="getBoardCnt" resultType="int">
+		select count(*) from mov_board
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.movie.model.BoardDTO">
+		insert into mov_board 
+		values(#{board_num}, #{board_category}, #{board_title}, #{board_cont}, now(), #{board_writer}, default, #{board_num}, default, default)
+	</insert>
+	
+	<update id="updateBoard" parameterType="com.movie.model.BoardDTO">
+		update mov_board set board_category = #{board_category}, board_title = #{board_title}, board_cont = #{board_cont} where board_num = #{board_num}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		delete from mov_board where board_num = #{board_num}
+	</delete>
+	
+	<insert id="insertBoardReply" parameterType="com.movie.model.BoardDTO">
+		insert into mov_board(board_category, board_title, board_cont, board_regdate, board_writer, board_hit, board_comm_cnt, board_group, board_step, board_indent) 
+		values(#{board_category}, #{board_title}, #{board_cont}, now(), #{board_writer}, default, default, #{board_group}, #{board_step}+1, #{board_indent}+1)
+	</insert>
+	
+	<update id="updateReply" parameterType="com.movie.model.BoardDTO">
+		<![CDATA[
+			update mov_board set board_step = board_step+1 where board_step > #{board_step} and board_group = #{board_group}
+		]]>
+	</update>
+	
+	<select id="category_board_search" parameterType="Map" resultType="com.movie.model.BoardDTO">
+		select * from mov_board where board_category like #{keyword} order by board_group desc, board_step limit #{startNum},#{rowsize}
+	</select>
+	
+	<select id="cont_board_search" parameterType="Map" resultType="com.movie.model.BoardDTO">
+		select * from mov_board where board_cont like #{keyword} order by board_group desc, board_step limit #{startNum},#{rowsize}
+	</select>
+	
+	<select id="writer_board_search" parameterType="Map" resultType="com.movie.model.BoardDTO">
+		select * from mov_board where board_writer like #{keyword} order by board_group desc, board_step limit #{startNum},#{rowsize}
+	</select>
+	
+	<select id="category_searchBoardCnt" parameterType="String" resultType="int">
+		select count(*) from mov_board where board_category like #{keyword}
+	</select>
+	
+	<select id="cont_searchBoardCnt" parameterType="String" resultType="int">
+		select count(*) from mov_board where board_cont like #{keyword}
+	</select>
+	
+	<select id="writer_searchBoardCnt" parameterType="String" resultType="int">
+		select count(*) from mov_board where board_writer like #{keyword}
+	</select>
+	
+	<select id="getMyBoardCnt" parameterType="String" resultType="int">
+		select count(*) from mov_board where board_writer = #{mem_id}
+	</select>
+	
+	<select id="getMyBoardList" parameterType="map" resultType="com.movie.model.BoardDTO">
+		select * from mov_board where board_writer = #{mem_id} order by board_regdate desc limit ${startnum},${rowsize}
+	</select>
+	
+	<select id="getBoardMaxNum" resultType="int">
+		select max(board_num) from mov_board
+	</select>
+</mapper>

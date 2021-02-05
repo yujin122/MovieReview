@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.model.ReivewLikeDAO">
+	<select id="countReviewLike" parameterType="int" resultType="int">
+		select count(*)
+		from mov_review_like
+		where like_review_num = #{review_num}
+	</select>
+	
+	<select id="checkReviewLike" parameterType="com.movie.model.ReviewLikeDTO" resultType="int">
+		select count(*)
+		from mov_review_like
+		where like_review_num = #{like_review_num} and like_review_mem = #{like_review_mem}
+	</select>
+	
+	<insert id="insertReviewLike" parameterType="com.movie.model.ReviewLikeDTO">
+		insert into mov_review_like values(#{like_review_num}, #{like_review_mem})
+	</insert>
+	
+	<delete id="deleteReviewLike" parameterType="com.movie.model.ReviewLikeDTO">
+		delete from mov_review_like 
+		where like_review_num = #{like_review_num} and like_review_mem = #{like_review_mem}
+	</delete>
+	
+	<delete id="deleteReviewLikeNum" parameterType="int">
+		delete from mov_review_like
+		where like_review_num = #{review_num}
+	</delete>
+</mapper>

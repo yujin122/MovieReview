@@ -33,6 +33,10 @@
 	width: 40%;
 }
 
+#tit_th {
+	width: 40%;
+}
+
 #mov_tb a {
 	text-decoration: none;
 	color: black;	
@@ -40,6 +44,7 @@
 
 #mov_tb a:hover {
 	color: #ff3131;
+	text-decoration: underline;
 }
 
 #paging_box {
@@ -56,18 +61,18 @@
 	border-right: 0; 
 }
 
-#search_txt{
+.search_txt{
 	border-right: 3px solid #ff3131;
 	border-left: 0;
 }
 
-#search_txt, #search_label {
+.search_txt, #search_label {
 	border-top: 3px solid #ff3131;
 	border-bottom: 3px solid #ff3131;
 	vertical-align: middle;
 }
 
-#search_btn {
+.search_btn {
 	background-color: #ff3131;
 	color: white;
 	vertical-align: middle;
@@ -76,4 +81,4 @@
 
 .btn_white{border:1px solid #ff3131; color: #ff3131; background-color: white; font-weight: bold;}
 .btn_red{background-color: #ff3131; color:white; border:0; font-weight: bold;}
-.btn_white:focus, .btn_red:focus {outline: none;}
+.btn_white:focus, .btn_red:focus, .search_btn:focus, .search_txt:focus {outline: none;}

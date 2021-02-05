@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.model.LikeDAO">
+	<select id="likeCheck" parameterType="map" resultType="int">
+		select count(*) from mov_like where like_mov_fk = #{mov_num} and like_mem_fk = #{mem_id}
+	</select>
+	
+	<insert id="likeAdd" parameterType="map">
+		insert into mov_like values(#{mov_num}, #{mem_id}, now())
+	</insert>
+	
+	<delete id="likeDelete" parameterType="map">
+		delete from mov_like where like_mov_fk = #{mov_num} and like_mem_fk = #{mem_id}
+	</delete>
+	
+	<select id="likeList" parameterType="String" resultType="com.movie.model.MovieDTO">
+		select mi.* 
+		from mov_like ml join mov_movie_info mi
+		on ml.like_mov_fk = mi.mov_code
+		where like_mem_fk = #{mem_id}
+		order by like_date desc
+		limit 0, 12
+	</select>
+	
+	<select id="getLikeCnt" parameterType="String" resultType="int">
+		select count(*)
+		from mov_like
+		where like_mem_fk = #{mem_id}
+	</select>
+	
+	<select id="likeAllList" parameterType="map" resultType="com.movie.model.MovieDTO">
+		select mi.*
+		from mov_like ml join mov_movie_info mi
+		on ml.like_mov_fk = mi.mov_code
+		where like_mem_fk = #{mem_id}
+		order by ml.like_date desc
+		limit #{startNo}, #{rowsize}
+	</select>
+</mapper>

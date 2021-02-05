@@ -5,10 +5,24 @@
 	color: white;
 }
 
+#my_content {
+	width: 70%;
+	margin: 0 auto;
+}
+
+#mypage_main{
+	width: 83%;
+	display:inline-block;
+}
+
 #my_info {
-	margin: 20px 0 10px 0;
+	width: 100%;
+	vertical-align: top;
+	display:inline-block;
+	margin: 20px 0 10px 5px;
 	padding: 10px 0;
 	border-bottom: 1px solid gray;
+	
 }
 #my_info table {
 	width: 100%;
@@ -40,3 +54,10 @@
 #heart_img {
 	width: 30px;
 }
+
+#side_bar {display:inline-block; width: 15%; margin: 10px 0; padding-bottom: 100px; vertical-align: top;}
+#side_bar h2 {padding: 40px 10px 30px 10px; margin : 10px 0 0 0; border-bottom: 2px solid #ff3131; color: white; background-color: #ff3131;}
+#side_bar ul li a {text-decoration: none; padding: 10px; color: black;}
+#side_bar ul li a:hover{text-decoration: underline; color: #ff3131;}
+#side_bar ul {list-style: none; margin: 0; padding:0;}
+#side_bar ul li {padding: 15px 0; border: 1px solid #b8b8b8;}

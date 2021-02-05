@@ -1,6 +1,8 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
+body {margin: 0;}
+
 body, button, input, table, select, textarea {
 	font-family: 'Noto Sans KR', sans-serif;
 }
@@ -27,7 +29,7 @@ body, button, input, table, select, textarea {
 	border-left: 3px solid #ff3131;
 }
 
-#search_btn {
+#header_search input[type=button]  {
 	height: 68px;
 	width: 7%;
 } 
