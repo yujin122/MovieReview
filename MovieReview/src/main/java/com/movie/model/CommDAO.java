@@ -17,5 +17,6 @@ public interface CommDAO {
 	public int getCommCnt(int bnum);									// 댓글수
 	public int getMyCommCnt(String mem_id);								// 내가 쓴 댓글 수
 	public List<CommDTO> getMyCommList(String mem_id, Pagination pagination); 	// 내가 쓴 댓글 리스트
-	public int getMaxNum(int comm_board);
+	public int getMaxNum();
+	public int getCommAllCnt();
 }

@@ -1,6 +1,0 @@
-@charset "UTF-8";
-
-#header_main table tr td:nth-child(4), #header_main table tr td:nth-child(4) a{
-	background-color: #ff3131;
-	color: white;
-}

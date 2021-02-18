@@ -20,4 +20,9 @@ public class GenreDAOImpl implements GenreDAO {
 	public List<GenreDTO> getGenre(String mov_code) {
 		return sqlSession.selectList("getGenre", mov_code);
 	}
+	
+	@Override
+	public List<Integer> getGenreNum(List<String> genre_list) {
+		return sqlSession.selectList("getGenreNum", genre_list);
+	}
 }

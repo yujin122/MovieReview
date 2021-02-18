@@ -22,4 +22,5 @@ public interface ReviewDAO {
 	public List<ChartDTO> myReviewChart(String mem_id);
 	public List<Integer> myReviewBest(String mem_id);
 	public float myReviewRatingAvg(String mov_code);
+	public List<ExpectRatingDTO> expectRating(List<Integer> genreNumList, String mem_id);
 }

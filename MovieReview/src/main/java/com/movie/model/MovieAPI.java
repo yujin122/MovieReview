@@ -92,26 +92,6 @@ public class MovieAPI {
 		return map;
 	}
 	
-	// 영화 리스트 가져오기
-	/*
-	 * public JsonArray getMovieInfo(List<String> mCdList){ JsonArray jarr = new
-	 * JsonArray();
-	 * 
-	 * String apiURL =
-	 * "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json";
-	 * String txt;
-	 * 
-	 * for(int i = 0; i < mCdList.size(); i++) { txt = "movieCd="+mCdList.get(i);
-	 * 
-	 * StringBuffer br = openAPI(apiURL, txt); JsonParser parser = new JsonParser();
-	 * JsonObject res = (JsonObject)parser.parse(br.toString()); JsonObject mov_list
-	 * = (JsonObject)res.get("movieInfoResult");
-	 * 
-	 * jarr.add(mov_list); }
-	 * 
-	 * return jarr; }
-	 */
-	
 	public Map<String, Object> getMovieCont(String mov_num, float rating) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		

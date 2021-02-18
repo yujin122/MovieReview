@@ -7,4 +7,5 @@
 	<insert id="insertMovieGenre" parameterType="map">
 		insert into mov_genres values(#{mov_code}, #{genre_num})
 	</insert>
+
 </mapper>

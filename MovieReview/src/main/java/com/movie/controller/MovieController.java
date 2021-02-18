@@ -89,7 +89,7 @@ public class MovieController {
 			if(rating != 0) {
 				rating = rating / rating_list.size();
 			}
-			System.out.println("후" + rating);
+			
 			info_list.add(movieAPI.getMovieCont(code, rating));
 		}
 		return info_list;

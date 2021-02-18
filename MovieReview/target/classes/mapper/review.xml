@@ -144,4 +144,15 @@
 		from mov_review
 		where review_mov = #{mov_code}
 	</select>
+	
+	<select id="expectRating" parameterType="map" resultType="com.movie.model.ExpectRatingDTO">
+		select mov_genres.genre_num_fk, avg(review_rating) review_rating_avg, count(review_rating) review_cnt
+		from mov_review join mov_genres 
+		on mov_review.review_mov = mov_genres.mov_code_fk
+		where mov_review.review_writer = #{mem_id} and mov_genres.genre_num_fk in
+		<foreach collection="genreNumList" item="item" open="(" close=")" separator=",">
+			${item}
+		</foreach>
+		group by mov_genres.genre_num_fk;
+	</select>
 </mapper>

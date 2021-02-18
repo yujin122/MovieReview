@@ -27,4 +27,5 @@ public interface ReviewService {
 	public int reviewSearchCnt(String label, String search);
 	public List<ReviewDTO> reviewSearch(String label, String search, Pagination pagination);
 	public int reviewCheck(String mov_code, String mem_id);
+	public float expectRating(String[] genre_list, String mem_id);
 }

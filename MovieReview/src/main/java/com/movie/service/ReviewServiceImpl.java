@@ -1,5 +1,6 @@
 package com.movie.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.movie.model.ExpectRatingDTO;
 import com.movie.model.GenreDAO;
 import com.movie.model.GenreDTO;
 import com.movie.model.MovieDAO;
 import com.movie.model.MovieDTO;
 import com.movie.model.MovieGenreDAO;
+import com.movie.model.MovieGenreDTO;
 import com.movie.model.ReviewDAO;
 import com.movie.model.ReviewDTO;
 import com.movie.model.ReviewInfoDTO;
@@ -141,8 +144,10 @@ public class ReviewServiceImpl implements ReviewService{
 		return rev_dao.updateReview(dto);
 	}
 	
+	@Transactional
 	@Override
 	public int reviewDelete(int review_num) {
+		rl_dao.deleteReviewLike(review_num);
 		return rev_dao.deleteReview(review_num);
 	}
 	
@@ -159,5 +164,38 @@ public class ReviewServiceImpl implements ReviewService{
 	@Override
 	public int reviewCheck(String mov_code, String mem_id) {
 		return rev_dao.checkReview(mov_code, mem_id);
+	}
+	
+	@Override
+	public float expectRating(String[] genre, String mem_id) {
+		List<String> genre_list = new ArrayList<String>();
+		for(int s = 0; s < genre.length; s++) {
+			genre_list.add(genre[s]);
+		}
+		List<Integer> genreNumList = gen_dao.getGenreNum(genre_list);
+		List<ExpectRatingDTO> expectList = rev_dao.expectRating(genreNumList, mem_id);
+		// 전체 리뷰 수
+		int allCnt = 0;
+
+		for(int i = 0; i < expectList.size(); i++) {
+			ExpectRatingDTO dto = expectList.get(i);
+			// 장르별 리뷰 개수를 더함
+			allCnt += dto.getReview_cnt();
+		}
+		
+		float allAvg = 0;
+		// 가중평균(장르별 리뷰수에 따라 가중치를 줌)
+		for(int j = 0; j < expectList.size(); j++) {
+			ExpectRatingDTO dto = expectList.get(j);
+			// 가중치
+			float weight = (dto.getReview_cnt() / (float)allCnt) * 100;
+			// 장르별 평균 * 가중치
+			float wAvg = 
+					(Math.round(dto.getReview_rating_avg()*10)/10)*weight;
+			
+			allAvg += wAvg;
+		}
+		// 평균
+		return allAvg/100;
 	}
 }

@@ -16,17 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.movie.model.GenreDAO;
 import com.movie.model.GenreDTO;
 import com.movie.model.MovieAPI;
-import com.movie.model.MovieDAO;
 import com.movie.model.MovieDTO;
-import com.movie.model.MovieGenreDAO;
 import com.movie.model.NaverAPI;
-import com.movie.model.ReviewDAO;
 import com.movie.model.ReviewDTO;
 import com.movie.model.ReviewInfoDTO;
-import com.movie.model.ReviewLikeDAO;
 import com.movie.model.ReviewLikeDTO;
 import com.movie.service.Pagination;
 import com.movie.service.ReviewService;
@@ -36,15 +31,8 @@ public class ReviewController {
 	
 	@Autowired private ReviewService service;
 	
-	@Autowired private MovieDAO mov_dao;
-	@Autowired private GenreDAO gen_dao;
-	@Autowired private MovieGenreDAO mg_dao;
-	@Autowired private ReviewDAO rev_dao;
-	@Autowired private ReviewLikeDAO rl_dao;
-	
 	@RequestMapping("/review_write_form.do")
-	public String review_write_form(@RequestParam String mov_num, Model model) throws IOException {
-		
+	public String review_write_form(@RequestParam String mov_num, Model model, HttpSession session) throws IOException {
 		int check = service.movieCheck(mov_num);
 		float rating = 0;
 		
@@ -68,6 +56,7 @@ public class ReviewController {
 			
 			model.addAttribute("genre", genre);
 			model.addAttribute("dto", dto);
+			model.addAttribute("expect", expect_rating(genre,session));
 			
 			return "movie/review_form";
 		}else {
@@ -83,10 +72,19 @@ public class ReviewController {
 			
 			model.addAttribute("dto", mov_dto);
 			model.addAttribute("genre", genre);
+			model.addAttribute("expect", expect_rating(genre,session));
 			
 			return "movie/review_form";
 		}
 		
+	}
+	
+	public float expect_rating(String genres, HttpSession session) {
+		String mem_id = session.getAttribute("session_mem_id").toString();
+		String[] genre_list = genres.split("\\|");
+		
+		
+		return service.expectRating(genre_list, mem_id);
 	}
 	
 	@RequestMapping("/review_insert.do")
@@ -233,7 +231,6 @@ public class ReviewController {
 		int res = service.reviewDelete(review_num);
 		
 		if(res > 0) {
-			rl_dao.deleteReviewLike(review_num);
 			return "redirect:/";
 		}else {
 			rtts.addFlashAttribute("msg", "삭제 실패");

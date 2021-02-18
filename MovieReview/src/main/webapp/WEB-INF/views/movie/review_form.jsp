@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var = "path" value = "${pageContext.request.contextPath }" />
 <!DOCTYPE html>
@@ -83,12 +84,18 @@
 							</td>
 						</tr>
 						<tr>
-							<th>평균 평점</th>
-							<td colspan = "3">
-								<c:if test="${dto.getMov_avgrating() != null}">
-									<span>★</span>${dto.getMov_avgrating() }
-								</c:if>
-							</td>
+							<c:if test="${dto.getMov_avgrating() != '0.0'}">
+								<th>평균 평점</th>
+								<td>
+									<span>★</span><fmt:formatNumber value="${dto.getMov_avgrating() }" pattern=".0" />
+								</td>
+							</c:if>
+							<c:if test="${expect != 0 }">
+								<th>예상 평점</th>
+									<td>
+										<span>★</span><fmt:formatNumber value="${expect }" pattern=".0" />
+									</td>
+							</c:if>
 						</tr>
 					</table>
 				</div>

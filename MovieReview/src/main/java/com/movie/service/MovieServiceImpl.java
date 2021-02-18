@@ -62,4 +62,6 @@ public class MovieServiceImpl implements MovieService{
 	public void likeInsert(String mov_code, String mem_id) {
 		like_dao.like_add(mov_code, mem_id);
 	}
+	
+	
 }

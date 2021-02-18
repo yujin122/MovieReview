@@ -130,4 +130,13 @@ public class ReviewDAOImpl implements ReviewDAO{
 	public int checkReview(String mov_code) {
 		return sqlSession.selectOne("checkMyReview", mov_code);
 	}
+	
+	@Override
+	public List<ExpectRatingDTO> expectRating(List<Integer> genreNumList, String mem_id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("genreNumList", genreNumList);
+		map.put("mem_id", mem_id);
+		
+		return sqlSession.selectList("expectRating", map);
+	}
 }

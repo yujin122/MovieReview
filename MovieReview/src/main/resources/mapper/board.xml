@@ -47,8 +47,8 @@
 	</delete>
 	
 	<insert id="insertBoardReply" parameterType="com.movie.model.BoardDTO">
-		insert into mov_board(board_category, board_title, board_cont, board_regdate, board_writer, board_hit, board_comm_cnt, board_group, board_step, board_indent) 
-		values(#{board_category}, #{board_title}, #{board_cont}, now(), #{board_writer}, default, default, #{board_group}, #{board_step}+1, #{board_indent}+1)
+		insert into mov_board(board_category, board_title, board_cont, board_regdate, board_writer, board_hit, board_group, board_step, board_indent) 
+		values(#{board_category}, #{board_title}, #{board_cont}, now(), #{board_writer}, default, #{board_group}, #{board_step}+1, #{board_indent}+1)
 	</insert>
 	
 	<update id="updateReply" parameterType="com.movie.model.BoardDTO">

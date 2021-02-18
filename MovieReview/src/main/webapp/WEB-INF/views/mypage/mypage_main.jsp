@@ -117,37 +117,37 @@
 	
 	<div id = "mypage_menu">
 		<h3># 취향 분포도</h3>
-		<div id = "chart">
-			<div id = "chart_box">
-			<canvas id = "myChart" width="auto" height="320"></canvas>
-			<script type="text/javascript">
-				mov_chart_data()
-			</script>
+		<c:set var="movList" value="${mov_list }" />
+		<c:if test="${!empty movList }">
+			<div id = "chart">
+				<div id = "chart_box">
+				<canvas id = "myChart" width="auto" height="320"></canvas>
+				<script type="text/javascript">
+					mov_chart_data()
+				</script>
+				</div>
+				<div id = "recommend_box">
+					<h4>추천</h4>
+						<c:forEach items="${movList }" var = "movie">
+							<c:set var = "cnt" value = "${cnt+1 }" />
+							<table onclick = "location = '${movie.getMov_link() }'">
+								<tr>
+									<th><img src="${movie.getMov_poster() }"></th>
+								</tr>
+								<tr>
+									<td>${movie.getMov_title() }</td>
+								</tr>
+							</table>
+							<c:if test="${cnt%3 == 0 }">
+								<br>
+							</c:if>
+						</c:forEach>
+				</div>
 			</div>
-			<div id = "recommend_box">
-				<h4>추천</h4>
-				<c:set var="movList" value="${mov_list }" />
-				<c:if test="${!empty movList }">
-					<c:forEach items="${movList }" var = "movie">
-						<c:set var = "cnt" value = "${cnt+1 }" />
-						<table onclick = "location = '${movie.getMov_link() }'">
-							<tr>
-								<th><img src="${movie.getMov_poster() }"></th>
-							</tr>
-							<tr>
-								<td>${movie.getMov_title() }</td>
-							</tr>
-						</table>
-						<c:if test="${cnt%3 == 0 }">
-							<br>
-						</c:if>
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty movList }">
-					<h4>리뷰한 영화가 없습니다.</h4>
-				</c:if>
-			</div>
-		</div>
+		</c:if>
+		<c:if test="${empty movList }">
+			<h4>리뷰한 영화가 없습니다.</h4>
+		</c:if>
 		<div id = "like_mov">
 			<h3># 찜한 영화</h3><span><a href = "${path }/my_like_mov.do">더보기 ></a></span><br>
 			<c:set var= "likeList" value = "${like_list }" />

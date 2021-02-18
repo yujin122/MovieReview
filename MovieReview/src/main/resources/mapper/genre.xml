@@ -14,4 +14,13 @@
 		on genre_num_fk = mov_genre_num
 		where mov_code_fk = #{mov_code};
 	</select>
+	
+	<select id="getGenreNum" parameterType="list" resultType="int">
+		select mov_genre_num
+		from mov_genres_info
+		where mov_genre_name in 
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

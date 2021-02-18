@@ -32,20 +32,6 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	
 	@Override
-	public void setCommCount(int bnum) {
-		sqlSession.update("setCommount", bnum);
-	}
-	
-	@Override
-	public void setdelCommCnt(int bnum, int cnt) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("bnum", bnum);
-		map.put("cnt", cnt);
-		
-		sqlSession.update("setdelCommCnt", map);
-	}
-	
-	@Override
 	public int getBoardCnt() {
 		return sqlSession.selectOne("getBoardCnt");
 	}

@@ -54,4 +54,8 @@
 	<select id="getMaxNum" parameterType="int" resultType="int">
 		select max(comm_num) from mov_comm
 	</select>
+	
+	<select id="getCommAllCnt" resultType="int">
+		select count(*) from mov_comm
+	</select>
 </mapper>

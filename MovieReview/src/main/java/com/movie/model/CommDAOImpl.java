@@ -83,7 +83,12 @@ public class CommDAOImpl implements CommDAO{
 	}
 	
 	@Override
-	public int getMaxNum(int comm_board) {
-		return sqlSession.selectOne("getMaxNum", comm_board);
+	public int getMaxNum() {
+		return sqlSession.selectOne("getMaxNum");
+	}
+	
+	@Override
+	public int getCommAllCnt() {
+		return sqlSession.selectOne("getCommAllCnt");
 	}
 }

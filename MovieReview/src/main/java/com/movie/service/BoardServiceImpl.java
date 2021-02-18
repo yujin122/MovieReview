@@ -104,11 +104,11 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public int commInsert(CommDTO dto) {
-		int comm_cnt = comm_dao.getCommCnt(dto.getComm_board());
+		int comm_cnt = comm_dao.getCommAllCnt();
 		int comm_num = 1;
 		
 		if(comm_cnt > 0) {
-			comm_num = comm_dao.getMaxNum(dto.getComm_board())+1;
+			comm_num = comm_dao.getMaxNum()+1;
 		}
 		dto.setComm_num(comm_num);
 		dto.setComm_group(comm_num);
